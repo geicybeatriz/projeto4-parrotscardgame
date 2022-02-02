@@ -1,3 +1,4 @@
+//tela inicial
 iniciarTela();
 
 function iniciarTela(){
@@ -7,9 +8,7 @@ function iniciarTela(){
             <h1>PARROT CARD GAME</h1>
         </header>
         <main>
-            <div class="carta">
-                <img src="./assets/front.png" alt="frente">
-            </div>
+            
         </main>
     `;
     distribuirCartas();
@@ -29,26 +28,39 @@ function distribuirCartas(){
         "./assets/metalparrot.gif",
         "./assets/revertitparrot.gif",
         "./assets/tripletsparrot.gif",
-        "./assets/unicornparrot.gif"
-    ]
+        "./assets/unicornparrot.gif"]
 
     let baralho = [];
 
-    for (let i = 0; i<(numeroDeCartas.length)/2; i++){
+    for(let i = 0; i < (numeroDeCartas/2); i++){
         for (let j = 0; j < 2; j++){
             baralho.push(cartasPossiveis[i]);
-        }
-    }
-    console.log(baralho);
+    }}
     //embaralhando
     baralho.sort(comparador);
-    
+
+    //distribuindo as cartas
+    const cartasNaMesa = document.querySelector("main");
+    for(let i = 0; i < baralho.length; i++){
+        cartasNaMesa.innerHTML += `
+        <div class="carta" onclick = "virarCarta(this)">
+                <img class="frente" src="./assets/front.png" alt="frente">
+                <img class="verso escondido" alt="verso" src="${baralho[i]}">
+        </div>
+        `;
+    }
 }
-
-
-
 //comparar cartas
 
 function comparador() {
     return Math.random() - 0.5;
+}
+
+function virarCarta(cartaSelecionada){
+    const frenteCarta = cartaSelecionada.querySelector(".frente");
+    frenteCarta.classList.toggle("escondido");
+
+    const versoCarta = cartaSelecionada.querySelector(".verso");
+    versoCarta.classList.toggle("escondido");
+
 }
