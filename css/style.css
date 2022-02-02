@@ -1,0 +1,34 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef9bf;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    font-weight: 700;
+    font-style: normal;
+    font-size: 56px;
+    line-height: 66px;
+    letter-spacing: -0.004em;
+
+    text-align: center;
+
+    color: #75b79e;
+
+    padding: 40px 0 47px 0;
+    
+
+}
+@media(max-width: 614px){
+    h1{
+        font-size: 36px;
+        line-height: 42px;
+
+    }
+}
+
+
