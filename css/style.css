@@ -3,7 +3,7 @@ body{
     background-color: #eef9bf;
 
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -23,6 +23,37 @@ h1{
     
 
 }
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.carta{
+    width: 117px;
+    height: 146px;
+    background-color: #a7e9af;
+    border: 1px solid #99cea8;
+    box-sizing: border-box;
+    border-radius: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.carta img{
+    width: 100px;
+    height: 100px;
+
+}
+
+
+
+
+
+
+
+
+
 @media(max-width: 614px){
     h1{
         font-size: 36px;
