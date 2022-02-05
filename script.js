@@ -58,11 +58,11 @@ function distribuirCartas(){
     const cartasNaMesa = document.querySelector("main");
     for(let i = 0; i < baralho.length; i++){
         cartasNaMesa.innerHTML += `
-        <div class="carta" onclick = "verificarCarta(this)">
-            <div class="face faceFrente" >
+        <div class="carta" onclick = "verificarCarta(this)" data-identifier="card">
+            <div class="face faceFrente" data-identifier="back-face">
                 <img class="frente"  alt="frente da carta" src="./assets/front.png">
             </div>
-            <div class="face faceVerso escondido" >
+            <div class="face faceVerso escondido" data-identifier="front-face">
                 <img class="verso"alt="verso da carta" src="./assets/${baralho[i]}.gif">
             </div>
         </div>
