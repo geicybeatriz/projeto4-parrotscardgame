@@ -1,4 +1,13 @@
-//tela inicial
+let primeiraCarta = undefined;
+let segundaCarta = undefined;
+
+let baralho = [];
+
+let contador = 0;
+let jogadas = 0;
+
+let intervalo = undefined;
+
 iniciarTela();
 
 function iniciarTela(){
@@ -7,6 +16,7 @@ function iniciarTela(){
         <header>
             <h1>PARROT CARD GAME</h1>
         </header>
+        <div class="cronometro">0</div>
         <main>
             
         </main>
@@ -14,53 +24,114 @@ function iniciarTela(){
     distribuirCartas();
 }
 
-//Aqui, temos o prompt, criação do baralho e embaralhamento e distribuição
+let tempo = document.querySelector(".cronometro");
+
 function distribuirCartas(){
+
+    intervalo = setInterval(tempoDeJogo, 1000);
+
     let numeroDeCartas = 0;
     while ((numeroDeCartas < 4) || (numeroDeCartas > 14) || (numeroDeCartas % 2 !== 0)) {
         numeroDeCartas = prompt("Digite o numero de cartas. O numero deve ser par e entre 4 e 14.");
     }
 
     let cartasPossiveis =[
-        "./assets/bobrossparrot.gif",
-        "./assets/explodyparrot.gif",
-        "./assets/fiestaparrot.gif",
-        "./assets/metalparrot.gif",
-        "./assets/revertitparrot.gif",
-        "./assets/tripletsparrot.gif",
-        "./assets/unicornparrot.gif"]
+        "bobrossparrot",
+        "explodyparrot",
+        "fiestaparrot",
+        "metalparrot",
+        "revertitparrot",
+        "tripletsparrot",
+        "unicornparrot"
+    ]
 
-    let baralho = [];
-
+    cartasPossiveis.sort(comparador);
+    
     for(let i = 0; i < (numeroDeCartas/2); i++){
         for (let j = 0; j < 2; j++){
             baralho.push(cartasPossiveis[i]);
-    }}
-    //embaralhando
+        }
+    }
+
     baralho.sort(comparador);
 
-    //distribuindo as cartas
     const cartasNaMesa = document.querySelector("main");
     for(let i = 0; i < baralho.length; i++){
         cartasNaMesa.innerHTML += `
-        <div class="carta" onclick = "virarCarta(this)">
-                <img class="frente" src="./assets/front.png" alt="frente">
-                <img class="verso escondido" alt="verso" src="${baralho[i]}">
+        <div class="carta" onclick = "verificarCarta(this)">
+            <div class="face faceFrente" >
+                <img class="frente"  alt="frente da carta" src="./assets/front.png">
+            </div>
+            <div class="face faceVerso escondido" >
+                <img class="verso"alt="verso da carta" src="./assets/${baralho[i]}.gif">
+            </div>
         </div>
         `;
     }
 }
-//comparar cartas
 
 function comparador() {
     return Math.random() - 0.5;
 }
 
-function virarCarta(cartaSelecionada){
-    const frenteCarta = cartaSelecionada.querySelector(".frente");
-    frenteCarta.classList.toggle("escondido");
+function virarCarta(cartaVirada){
+    cartaVirada.classList.toggle("escondido");
+    cartaVirada.classList.toggle("bloquear-click");
+    
+}
 
-    const versoCarta = cartaSelecionada.querySelector(".verso");
-    versoCarta.classList.toggle("escondido");
+function verificarCarta(cartaVirada) {
+    if (primeiraCarta === undefined){
+        primeiraCarta = cartaVirada;
+        virarCarta(cartaVirada);
+        jogadas++;
+    } else if (segundaCarta === undefined) {
+        segundaCarta = cartaVirada;
+        virarCarta(cartaVirada);
+        jogadas++;
+        compararCartas();
+    } else {
+        return;
+    } 
+}
 
+function compararCartas(){
+    const valorPrimeiraCarta = primeiraCarta.childNodes[3].childNodes[1].attributes[2].nodeValue;
+    const valorSegundaCarta = segundaCarta.childNodes[3].childNodes[1].attributes[2].nodeValue;
+
+    if (valorPrimeiraCarta === valorSegundaCarta){
+        primeiraCarta = undefined;
+        segundaCarta = undefined;
+        contador += 2;
+        setTimeout(finalizarJogo,500);
+    } else {
+        setTimeout(virarCarta, 1000, primeiraCarta);
+        setTimeout(virarCarta, 1000, segundaCarta);
+        setTimeout(indefinirCarta, 1000);
+    }
+}
+
+function indefinirCarta(){
+    primeiraCarta = undefined;
+    segundaCarta = undefined;
+}
+
+function finalizarJogo(){
+    if (contador === baralho.length){
+        clearInterval(intervalo);
+        alert(`"Você ganhou em ${jogadas} jogadas! E seu tempo foi de ${tempo.innerHTML} segundos!"`);
+        const reiniciarJogo = prompt("Deseja reiniciar o jogo? Sim ou não");
+        switch(reiniciarJogo){
+            case "Sim":
+            case "sim":
+            case "s":
+            case "SIM":
+                location.reload();
+                break;
+        }
+    }
+}
+
+function tempoDeJogo(){
+    tempo.innerHTML = parseInt(tempo.innerHTML) + 1;
 }

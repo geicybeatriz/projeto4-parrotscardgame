@@ -1,4 +1,5 @@
 body{
+    width: 100vw;
     font-family: 'Roboto', sans-serif;
     background-color: #eef9bf;
 
@@ -6,6 +7,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 h1{
@@ -20,11 +22,8 @@ h1{
     color: #75b79e;
 
     padding: 40px 0 47px 0;
-    
-
 }
 main{
-
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -32,11 +31,25 @@ main{
 
     gap: 34px 34px;
 
-    padding: 0 116px;
+    padding: 0 116px 40px 116px;
+
+    perspective: 1000;
 }
-.carta{
+.carta {
     width: 117px;
     height: 146px;
+    position: relative;
+}
+
+.carta img {
+    width: 100px;
+    height: 100px;
+}
+
+.face {
+    width: 100%;
+    height: 100%;
+
     background-color: #a7e9af;
     border: 1px solid #99cea8;
     box-sizing: border-box;
@@ -45,30 +58,44 @@ main{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.carta img{
-    width: 100px;
-    height: 100px;
 
-}
-
-.escondido{
-    display: none;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d; 
+    position: absolute;
 }
 
+.faceVerso {
+    transform: rotateY(180deg);
+}
 
+.escondido .faceVerso{
+    transform: rotateY(0deg);
+}
 
+.escondido .faceFrente {
+   transform: rotateY(-180deg);
+}
+.bloquear-click{
+    pointer-events: none;
+}
 
+.cronometro {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 9;
 
-
-
+    font-size: 30px;
+    font-weight: 700;
+    color: #5c913b;
+}
 
 
 @media(max-width: 614px){
     h1{
         font-size: 36px;
         line-height: 42px;
-
     }
     main{
         width: 60%;
